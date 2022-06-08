@@ -1,11 +1,10 @@
-from email import message
+
 from aiogram import Bot, Dispatcher, executor, types
 import logging
 import os
 import asyncio
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton, ParseMode
-from requests import delete
 
 from state_db import update_state, get_state
 from cust_db import insert_cust_balance, insert_cust_twit, insert_cust_wallet, \
@@ -53,7 +52,6 @@ Please, complete the following task
 📚 Info 
     GeltToken is a TRC-20 utility token empowering, facilitating & promoting e-commerce, merchants, exchanges, startups, crypto-mart & retailers accepting crypto for everyday user
 
-    click on 'Enter Your twitter username'.
 """
 
 accunt = """
@@ -72,7 +70,7 @@ Share referral link to more people to get more coins...
 
 def twit_inpun(message: types.Message):
     if get_state(message.chat.id)[-1] == 'twit_input':
-        update_state(message.chat.id, 'normal')
+        # update_state(message.chat.id, 'normal')
         return True
     else:
         return False
@@ -159,7 +157,7 @@ async def welcome(message: types.Message):
         if len(ope) == 1 or len(ope) > 2:
             insert_cust_ref(message.chat.id, None)
             await message.answer(text=Welcomze.format(t_name), parse_mode='HTML', reply_markup=keyboard_inline)
-            print(1)
+            
         elif len(ope) == 2:
             try:
                 insert_cust_ref(message.chat.id, ope[-1])
@@ -226,18 +224,18 @@ async def up_wall(message: types.Message):
 
 @dp.message_handler(u_wallet)
 async def wall_(message: types.Message):
-    print("pop", len(message.text))
+
     if message.text == 'q' or message.text == 'Q':
-        print(2)
+
         await message.answer("exited wallet update")
         update_state(message.chat.id, 'normal')
     elif len(message.text) < 16 or len(message.text) > 36:
-        print(1)
+
         await message.answer(
             "Please enter a valid address.\n(Hint: wallet addresses are usually bigger than 16 characters\npls try again) send 'q' or 'Q' to exit")
         update_state(message.chat.id, 'u_wallet')
     else:
-        print(3)
+
         insert_cust_wallet(message.chat.id, message.text)
         await message.answer("wallet updated successfully....")
 
@@ -297,7 +295,7 @@ async def wall(message: types.Message):
         K.insert(KeyboardButton("⚙️Update wallet"))
         K.insert(KeyboardButton("👨🏽Profile"))
         # try:
-        print("am qop")
+
         try:
             await bot.send_message(get_referred_by(message.chat.id), "➕ New referral added\n🏦Balance + 200")
             insert_cust_referral(get_referred_by(message.chat.id))
@@ -325,10 +323,10 @@ async def twit(message: types.Message, call_text=None):
         screen_name = call_text if call_text[0] != "@" else call_text[1:]
     else:
         screen_name = t if t[0] != "@" else t[1:]
-    print(screen_name)
+
     a = check_user(screen_name=screen_name)
     # await bot.delete_message(message.chat.id, message.message_id - 1)
-    print("first op")
+
     if isinstance(a, list):
         update_state(user_id=message.chat.id, state_={"last": "get_user_list"})
         for i in a:
@@ -339,7 +337,7 @@ async def twit(message: types.Message, call_text=None):
         I.insert(InlineKeyboardButton(text="non", callback_data="non"))
         await message.reply("please choose which of this you think is you", reply_markup=I)
         # await bot.delete_message(message.chat.id, message.message_id)
-        print("second one")
+
     elif isinstance(a, tuple):
         update_state(user_id=str(message.chat.id),
                      state_={"last": "get_user_tuple"})
@@ -349,7 +347,7 @@ async def twit(message: types.Message, call_text=None):
 
         I.insert(item1)
         I.insert(item2)
-        print(a)
+
 
         doc = f"""
         Is this you?\n
@@ -359,30 +357,30 @@ async def twit(message: types.Message, call_text=None):
         """
         # (i.id_str, i.screen_name, i.name, i.followers_count,)
         # await bot.delete_message(message.chat.id, message.message_id)
-        print("third one")
+
         if a[4]:
             await message.answer_photo(a[4], doc, reply_markup=I)
         else:
             await message.answer(doc, reply_markup=I)
 
-        print(str(message.chat.id))
+
         update_state(user_id=message.chat.id, state_=str(
             message.message_id) + " " + a[1] + " " + a[0])
         # await bot.delete_message(message.chat.id, message.message_id)
-        print("fourth one")
+
 
     elif not a:
         await message.answer("account not found\nplease ensure you type the correct name begining with @")
         update_state(user_id=message.chat.id, state_="twit_input")
         # await bot.delete_message(message.chat.id, message.message_id)
-        print("fifth one")
+
 
 
 @dp.callback_query_handler()
 async def be(call: types.CallbackQuery):
     if call.data == 'twit':
         update_state(call.message.chat.id, 'twit_input')
-        print(call.message.chat.id)
+
         # await call.message.delete()
         await call.message.answer("Send your twitter username e.g (@John)")
 
@@ -390,7 +388,7 @@ async def be(call: types.CallbackQuery):
         # await bot.delete_message(call.message.chat.id, call.message.message_id-1)###########
         # await call.answer(text=Welcomze.format(call.message.chat.first_name), )
         await call.message.answer("Please wait, bot is thinking")
-        # print(str(call.message.chat.id))
+
         state = get_state(call.message.chat.id)
         if call.data == 'yes':
             if state and len(state[-1].split(" ")) == 3:
@@ -408,9 +406,9 @@ async def be(call: types.CallbackQuery):
                             await call.message.reply("Sorry, username already in use\nsend in another name")
                             update_state(call.message.chat.id, 'twit_input')
                             # await bot.delete_message(call.message.chat.id, call.message.message_id)
-                            print("sixth one")
+
                             # await bot.delete_message(call.message.chat.id, call.message.message_id + 1)
-                            print("7th one")
+
                             return False
                         await call.message.answer(
                             "thank you for following me <a href='https://twitter.com/GeltToken'>@GeltToken</a>\n\n",
@@ -419,36 +417,35 @@ async def be(call: types.CallbackQuery):
                         await call.message.answer(
                             "send in your wallet address to continue(note: Make sure it is correct unless withdrawal might not be successful)")
                     else:
-                        update_state(user_id=call.message.chat.id,
-                                     state_="twit_input")
+                        update_state(user_id=call.message.chat.id, state_="twit_input")
                         await call.message.answer(
-                            "kindly <a href='https://twitter.com/GeltToken'>click me</a> to follow <a href='https://twitter.com/GeltToken'>@GeltToken</a>\n########################\n\n\n\n(send in your username again when you are done with following)\n\n\n\n########################",
+                            "kindly <a href='https://twitter.com/GeltToken'>click me</a> to follow <a href='https://twitter.com/GeltToken'>@GeltToken</a>\n\n\n##################\n\n\n\n(send in your username again when you are done with following)\n\n\n\n##################",
                             parse_mode=ParseMode.HTML)
-
+        
                     await bot.delete_message(call.message.chat.id, call.message.message_id)
-                    print("sixth one")
-                    await bot.delete_message(call.message.chat.id, call.message.message_id + 1)
-                    print("7th one")
+                    
+                    # await bot.delete_message(call.message.chat.id, call.message.message_id + 1)
+                    # print("7th one")
                     # print("opo", call.message.message_id)
 
         elif call.data == 'no':
             await call.message.delete()
             # if state:
             g = state[-1]
-            print("This is gg", g)
+            # print("This is gg", g)
             if state[1] and len(state[1].split(" ")) == 3:
                 # if g.startswith(str(call.message.message_id - 1)):
 
                 g = g.split(" ")[1]
-                print("this is under no screen")
-                print(g)
+                # print("this is under no screen")
+                # print(g)
                 go = find_user(g)
                 update_state(user_id=call.message.chat.id, state_='normal')
                 I = InlineKeyboardMarkup(row_width=1)
 
                 if go:
                     for i in go:
-                        print(i.get("screen_name"))
+                        # print(i.get("screen_name"))
                         button = InlineKeyboardButton(text="@" + i.get("screen_name"),
                                                       callback_data=i.get("screen_name"))
                         I.insert(button)
@@ -459,7 +456,7 @@ async def be(call: types.CallbackQuery):
                     await call.message.answer(
                         "account not found\nplease ensure you type the correct name begining with @")
         # await bot.delete_message(call.message.chat.id, call.message.message_id + 1)
-        print("last one")
+        # print("last one")
 
     elif call.data == 'non':
         update_state(call.message.chat.id, 'twit_input')
@@ -467,7 +464,7 @@ async def be(call: types.CallbackQuery):
 
     else:
         await bot.delete_message(call.message.chat.id, call.message.message_id)
-        print("this is the last one baba", call.data)
+        # print("this is the last one baba", call.data)
         await twit(call.message, call.data)
 
 

@@ -22,7 +22,7 @@ def beta(user_id):
         cur.execute(f"SELECT user_id, follower_id, followed from accounts WHERE user_id = {user_id}")
         res_t = cur.fetchall()
         print(res_t)
-        cur.execute("INSERT OR REPLACE into accounts values (?, ?)", (user_id, )")
+        cur.execute("INSERT OR REPLACE into accounts values (?, ?)", (user_id, ))
         return res_t
     except:
         return False

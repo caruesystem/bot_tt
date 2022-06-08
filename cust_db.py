@@ -93,7 +93,7 @@ def user_exist(user_id):
 def get_active(user_id):
     cur.execute(f"SELECT activated from accounts WHERE user_id = {user_id}")
     lopo = cur.fetchone()
-    # print(f"\n\n\n\n\nthis is from get active {lopo[0]}\n\n\n\n\n\n")
+    # #f"\n\n\n\n\nthis is from get active {lopo[0]}\n\n\n\n\n\n")
     try:
         if lopo[0] == True:
             return True
@@ -105,7 +105,7 @@ def get_active(user_id):
 def get_balance(user_id):
     cur.execute(f"SELECT balance from accounts WHERE user_id = {user_id}")
     bal = cur.fetchone()
-    print(f"\n\n\n\n\nthis is from get balance{bal}\n\n\n\n\n\n")
+    #f"\n\n\n\n\nthis is from get balance{bal}\n\n\n\n\n\n")
     if bal[0]:
         return bal[0]
     else:
@@ -115,7 +115,7 @@ def get_balance(user_id):
 def get_referral(user_id):
     cur.execute(f"SELECT bot_user_id from accounts WHERE user_id = {user_id}")
     ref = cur.fetchone()
-    print(f"\n\n\n\n\nthis is from get referral string{ref}\n\n\n\n\n\n")
+    #f"\n\n\n\n\nthis is from get referral string{ref}\n\n\n\n\n\n")
     if ref[0]:
         return ref[0]
     else:
@@ -126,7 +126,7 @@ def get_referred_by(user_id):
     ref = cur.fetchone()
     cur.execute(f"SELECT user_id FROM accounts WHERE bot_user_id = {ref[0]}")
     fer = cur.fetchone()
-    print(f"\n\n\n\n\nthis is from get referral string{ref}\n\n\n\n\n\n")
+    #f"\n\n\n\n\nthis is from get referral string{ref}\n\n\n\n\n\n")
     if fer[0]:
         return int(fer[0])
     else:
@@ -135,7 +135,7 @@ def get_referred_by(user_id):
 def get_profile(user_id):
     cur.execute(f"SELECT twitter_username ,balance, referrals  from accounts WHERE user_id = {user_id}")
     prof = cur.fetchone()
-    print(f"\n\n\n\n\nthis is from get profile{prof}\n\n\n\n\n\n")
+    #f"\n\n\n\n\nthis is from get profile{prof}\n\n\n\n\n\n")
 
     if prof:
         return prof
@@ -145,7 +145,7 @@ def get_profile(user_id):
 def get_referral_num(text):
     cur.execute(f"SELECT user_id, referrals from accounts WHERE bot_user_id = {text}")
     refs = cur.fetchone()
-    print(f"\n\n\n\n\nthis is from get referral  num{refs}\n\n\n\n\n\n")
+    #f"\n\n\n\n\nthis is from get referral  num{refs}\n\n\n\n\n\n")
     if refs:
         return refs
     else:
@@ -158,7 +158,8 @@ def update_referral_num(user_id, num):
         cur.execute("UPDATE accounts SET referrals = (?) WHERE user_id = (?);", (num, user_id))
         con.commit()
     except:
-        print(f"\n\n\n\n\ncouldn't update referral\n\n\n\n\n\n")
+        pass
+        #f"\n\n\n\n\ncouldn't update referral\n\n\n\n\n\n")
 
 
 # get_active(1)
@@ -167,7 +168,7 @@ def update_referral_num(user_id, num):
 # insert_cust_balance(1, 100000000)
 # insert_cust_wallet(2, 'qwertyio')
 # insert_cust_referral(1)
-# print(secrete())
+# #secrete())
 
 
 # ##########################################
@@ -185,7 +186,7 @@ def update_referral_num(user_id, num):
 #     db_data = json_file.read()
 #     json_file.close()
 #     if db_data.strip() == '':
-#         print("hello with the strip")
+#         #"hello with the strip")
 #         return "0"
 
 #     data = ast.literal_eval(db_data)
@@ -209,23 +210,23 @@ def update_referral_num(user_id, num):
 # def secrete():
 #     reu = secrets.token_hex(10)
 #     r = read_secret()
-#     print(r)
+#     #r)
 #     you = r.get('data')
-#     # print(type(you))
+#     # #type(you))
 #     if reu in you:
 #         secrete()
 #     else:
 #         r["data"].append(reu)
 #         write_secret(r)
-#         print(reu)
+#         #reu)
 #         return int(reu, 16)
 
 # def a(user_id):
 #     p = int(user_id, 16)
 #     cur.execute(f"SELECT bot_user_id from accounts WHERE bot_user_id = {p}")
 #     vr = cur.fetchone()
-#     print(vr)
+#     #vr)
 
 # a('7176526aee064964d513')
-# print(secrete())
+# #secrete())
 ###########################################################

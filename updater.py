@@ -5,7 +5,7 @@ Access_Token = "1527048299617869825-RUfyWyKrmIkFnG1QX8CZpHkZDm00c0"
 Access_Token_Secret = "MCU3aw3SRsN2ncTUCrPoUklHVEQKwbodiqX38f3UDBnii"
 
 import json
-from pprint import pprint
+# from p# import p#
 import tweepy
 from tweepy.errors import NotFound, \
     Forbidden, Unauthorized, TooManyRequests, \
@@ -13,7 +13,6 @@ from tweepy.errors import NotFound, \
 
 import time
 import ast
-import time
 from datetime import datetime
 
 main_man = "GeltToken"
@@ -49,7 +48,7 @@ def read_db_file():
     db_data = json_file.read()
     json_file.close()
     if db_data.strip() == '':
-        print("hello with the strip")
+        #("hello with the strip")
         return "0"
 
     data = ast.literal_eval(db_data)
@@ -82,11 +81,11 @@ def find_user(screen_name: str = None):
     try:
         a = 0
         for i in api.search_users(screen_name):
-            # print(i.id_str)
-            # print(i.name)
-            # print(i.screen_name)
-            # print("\n\n\n")
-            print("i reached find")
+            # #(i.id_str)
+            # #(i.name)
+            # #(i.screen_name)
+            # #("\n\n\n")
+            #("i reached find")
 
             l.append({
                 "id": i.id_str,
@@ -100,10 +99,10 @@ def find_user(screen_name: str = None):
         return l
 
     except NotFound:
-        print("not found")
+        #("not found")
         return 0
     except BadRequest:
-        print("ko wole")
+        #("ko wole")
         return 0
 
 
@@ -112,14 +111,14 @@ def check_user(user_id: str = None, screen_name: str = None):
     try:
         i = api.get_user(user_id=user_id, screen_name=screen_name)
         if i:
-            # print(i.id_str)
-            # print(i.screen_name)
-            # print(i.name)
-            # print(i.followers_count)
-            # print(i.profile_image_url)
-            # print(i.profile_image_url_https)
-            # print("https://twitter.com/" + i.screen_name)
-            # print(vars(i))
+            # #(i.id_str)
+            # #(i.screen_name)
+            # #(i.name)
+            # #(i.followers_count)
+            # #(i.profile_image_url)
+            # #(i.profile_image_url_https)
+            # #("https://twitter.com/" + i.screen_name)
+            # #(vars(i))
             if i.profile_image_url:
                 image = i.profile_image_url
             elif i.profile_image_url_https:
@@ -139,7 +138,7 @@ def check_user(user_id: str = None, screen_name: str = None):
     except NotFound:
         suspected_user = find_user(screen_name)
         if not suspected_user:
-            print("noting related to the name exist")
+            #("noting related to the name exist")
             return None
         elif suspected_user:
             for i in suspected_user:
@@ -165,7 +164,8 @@ def check_main_man():
             if check_main or not isinstance(check_main, list):
                 write_db_file(str(check_main[3]))
         except:
-            print("error")
+            #("error")
+            pass
         time.sleep(10)
 
 
@@ -176,15 +176,15 @@ def scrape(r, count, num: int = 50):
         a = [str(i) for i in a]
         r["GeltToken"]["followers"].extend(list(a))
         r["GeltToken"]["no_follower"] = count
-        print("\n\n\n\n\nreading from less than 20\n\n\n\n\n\n")
-        print(f"\n\n\n\n\n{str(r)}\n\n\n\n\n\n")
+        #("\n\n\n\n\nreading from less than 20\n\n\n\n\n\n")
+        #(f"\n\n\n\n\n{str(r)}\n\n\n\n\n\n")
         write_db_file(r)
         return a
     elif ma > 20:
         n = 0
         l = []
         for page in tweepy.Cursor(api.get_follower_ids, screen_name=main_man).items(limit=2000):
-            # print(page)
+            # #(page)
 
             l.append(str(page))
             if n == num:
@@ -192,8 +192,8 @@ def scrape(r, count, num: int = 50):
             n += 1
 
         b = r.get("GeltToken").get("followers")
-        print("\n\n\n\n\nreading from less than 20\n\n\n\n\n\n")
-        print(f"\n\n\n\n\n{str(r)}\n\n\n\n\n\n")
+        #("\n\n\n\n\nreading from less than 20\n\n\n\n\n\n")
+        #(f"\n\n\n\n\n{str(r)}\n\n\n\n\n\n")
         b.extend(l)
         c = list(set(b))
         r["GeltToken"]["no_follower"] = count
@@ -210,21 +210,21 @@ def confirm_scrape(num: int = 50, screen_name: str = None):
         count = man[3]
         r = read_db_file()
 
-        print(f"\n\n\n\n\nthis is the number of followers in db_file{r.get('GeltToken').get('no_follower')}\n\n\n\n\n\n")
+        #(f"\n\n\n\n\nthis is the number of followers in db_file{r.get('GeltToken').get('no_follower')}\n\n\n\n\n\n")
 
         if screen_name:
             if int(r.get("GeltToken").get("no_follower")) < int(count):
-                print("\n\n\n\n\nthis is under confirm_scrape where screen_name was supplied\n\n\n\n\n\n")
+                #("\n\n\n\n\nthis is under confirm_scrape where screen_name was supplied\n\n\n\n\n\n")
                 scrape(r=r, count=count, num=20)
         elif not screen_name:
             if int(r.get("GeltToken").get("no_follower")) < int(count):
-                print("\n\n\n\n\nthis is under confirm_scrape where screen_name was not supplied\n\n\n\n\n\n")
+                #("\n\n\n\n\nthis is under confirm_scrape where screen_name was not supplied\n\n\n\n\n\n")
                 scrape(r=r, count=count, num=num)
 
     else:
         with open("logg.t", "w") as F:
             F.write("it did't do it")
-        # print("it did't do it")
+        # #("it did't do it")
 
 
 if __name__ == '__main__':

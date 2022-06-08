@@ -24,7 +24,6 @@ def get_state(user_id):
     try:
         cur.execute(f"SELECT user_id, state from accounts WHERE user_id = {user_id}")
         res_t = cur.fetchone()
-        print(res_t)
         return res_t
     except:
         return False

@@ -42,7 +42,7 @@ def read_db_file():
     db_data = json_file.read()
     json_file.close()
     if db_data.strip() == '':
-        print("hello with the strip")
+        #"hello with the strip")
         return "0"
 
     data = ast.literal_eval(db_data)
@@ -72,11 +72,11 @@ def find_user(screen_name: str = None):
     try:
         a = 0
         for i in api.search_users(screen_name):
-            # print(i.id_str)
-            # print(i.name)
-            # print(i.screen_name)
-            # print("\n\n\n")
-            print("i reached find")
+            # #i.id_str)
+            # #i.name)
+            # #i.screen_name)
+            # #"\n\n\n")
+            #"i reached find")
 
             l.append({
                 "id": i.id_str,
@@ -90,10 +90,10 @@ def find_user(screen_name: str = None):
         return l
 
     except NotFound:
-        print("not found")
+        #"not found")
         return 0
     except BadRequest:
-        print("ko wole")
+        #"ko wole")
         return 0
 
 
@@ -102,17 +102,17 @@ def check_user(user_id: str = None, screen_name: str = None):
     try:
         i = api.get_user(user_id=user_id, screen_name=screen_name)
         if i:
-            print("\n\n\n\n\n\n\n\n\n\n\n")
-            print(i.id_str)
-            print(i.screen_name)
-            print(i.name)
-            print(i.followers_count)
-            print(i.profile_image_url)
-            print(i.profile_image_url_https)
-            print("https://twitter.com/" + i.screen_name)
-            print("\n\n\n\n\n\n\n\n\n\n\n")
+            #"\n\n\n\n\n\n\n\n\n\n\n")
+            #i.id_str)
+            #i.screen_name)
+            #i.name)
+            #i.followers_count)
+            #i.profile_image_url)
+            #i.profile_image_url_https)
+            #"https://twitter.com/" + i.screen_name)
+            #"\n\n\n\n\n\n\n\n\n\n\n")
 
-            # print(vars(i))
+            # #vars(i))
             if i.profile_image_url:
                 image = i.profile_image_url
             elif i.profile_image_url_https:
@@ -132,7 +132,7 @@ def check_user(user_id: str = None, screen_name: str = None):
     except NotFound:
         suspected_user = find_user(screen_name)
         if not suspected_user:
-            print("noting related to the name exist")
+            #"noting related to the name exist")
             return None
         elif suspected_user:
             for i in suspected_user:
@@ -163,9 +163,9 @@ def check_follow(screen_name):
     check_main = check_user(screen_name=main_id)
     " (i.id_str, i.screen_name, i.name, i.followers_count, image)"
     r = read_db_file()
-    print(r)    print(type(check_main[3]), type(r))
-    print(int(r))
-    print(int(check_main[3]))
+    #r)    #type(check_main[3]), type(r))
+    #int(r))
+    #int(check_main[3]))
     a = int(r)
     if int(check_main[3]) == a:
         return False
@@ -182,27 +182,29 @@ def check_follow(screen_name):
     }
     """
 
-    print(f"\n\n\n\n\nthis is the screen name passed {screen_name}\n\n\n\n\n\n")
+    #f"\n\n\n\n\nthis is the screen name passed {screen_name}\n\n\n\n\n\n")
     check_main = check_user(screen_name=screen_name)
     if check_main:
         ids = check_main[0]
         r = read_db_file()
-        print(r)
+        #r)
 
         if str(ids) in r.get("GeltToken").get("followers"):
-            print("\n\n\n\n\nFound the nigga\n\n\n\n\n\n")
+            #"\n\n\n\n\nFound the nigga\n\n\n\n\n\n")
             return True
         else:
             confirm_scrape(screen_name=screen_name)
             r = read_db_file()
             if str(ids) in r.get("GeltToken").get("followers"):
-                print("\n\n\n\n\nWent online and Found the nigga\n\n\n\n\n\n")
+                #"\n\n\n\n\nWent online and Found the nigga\n\n\n\n\n\n")
                 return True
             else:
-                print("\n\n\n\n\nDidn't Found the nigga\n\n\n\n\n\n")
+                #"\n\n\n\n\nDidn't Found the nigga\n\n\n\n\n\n")
                 return False
     else:
-        print("\n\n\n\n\nthis is from the else part of check_follow\n\n\n\n\n\n")
+
+        pass
+        #"\n\n\n\n\nthis is from the else part of check_follow\n\n\n\n\n\n")
 
 
 
