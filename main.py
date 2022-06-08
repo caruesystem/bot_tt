@@ -13,9 +13,11 @@ from cust_db import insert_cust_balance, insert_cust_twit, insert_cust_wallet, \
     get_balance, get_referral, get_profile, get_referral_num, update_referral_num, insert_cust_ref, get_referred_by
 from twitter import check_user, check_follow, find_user
 
+# API_TOKEN = os.getenv('5453415637:AAHw5g_cYJwCyMpmF-ynIoDAbrzqTZlAj5Q')
+
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=os.getenv('RE_BOT_KEY'))
+bot = Bot(token='5453415637:AAHw5g_cYJwCyMpmF-ynIoDAbrzqTZlAj5Q')
 
 dp = Dispatcher(bot)
 
